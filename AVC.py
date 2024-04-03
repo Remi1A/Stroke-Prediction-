@@ -101,12 +101,12 @@ class Model:
                     encoded = le.transform([value_str])[0]
                 else:
             
-                    encoded = -1  # ou autre code pour valeurs inconnues
+                    encoded = -1  
                 new_data_encoded.append(encoded)
             else:
                 new_data_encoded.append(value)
     
-        new_data_encoded = np.array([new_data_encoded])  # Assurez-vous que c'est un tableau 2D avec une seule ligne
+        new_data_encoded = np.array([new_data_encoded]) 
         return self.knn_best.predict(new_data_encoded)
 
 
@@ -186,24 +186,22 @@ class StrokePredictionGUI:
         result_message = "Risque élevé d'AVC" if prediction[0] == 1 else "Risque faible d'AVC"
         messagebox.showinfo("Résultat de prédiction", result_message)
 
-# Utilisation des classes
-data_path = 'healthcare-dataset-stroke-data.csv'  # Assurez-vous que le chemin est correct
-dataset = Dataset(data_path)
-dataset.clean_data()  # Nettoie les données
 
-# Visualiser la matrice de corrélation
+data_path = 'healthcare-dataset-stroke-data.csv'  
+dataset = Dataset(data_path)
+dataset.clean_data() 
+
+
 dataset.visualize_correlation_matrix()
 
-# Vérifier la normalité pour certaines colonnes
+
 dataset.check_normality(['age', 'bmi', 'avg_glucose_level'])
 dataset.preprocess_data()
 
 model = Model(dataset)
-model.train_and_evaluate(15)  # Vous pouvez ajuster ce nombre selon vos besoins
+model.train_and_evaluate(15)  
 
 visual = Visual(model)
 visual.plot_accuracies()
 
-# Initialiser et lancer l'interface graphique
 gui = StrokePredictionGUI(model)
-
